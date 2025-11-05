@@ -194,7 +194,9 @@ def download_to_file(path: str):
         raise RuntimeError(f"File '{path}' already exists.")
 
     # Download the file. Use curl to get a progress bar.
-    subprocess.run(["curl", DATA_SNAPSHOT_DOWNLOAD_URL, "--output", path])
+    # Skip SSL verification
+    # TODO: Download this snapshot elsewhere before this url dies
+    subprocess.run(["curl", "-o","-v","-L","-k", DATA_SNAPSHOT_DOWNLOAD_URL, "--output", path])
 
     click.secho(f"Data snapshot downloaded to {path}.")
 
