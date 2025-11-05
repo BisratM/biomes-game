@@ -106,7 +106,8 @@ RUN ${HOME}/google-cloud-sdk/bin/gcloud components install kubectl
 RUN curl -s https://fluxcd.io/install.sh | sudo bash
 
 # Install Rust to get access to the Rust CLI tools.
-RUN curl https://sh.rustup.rs/?version=1.66 -sSf | bash -s -- -y
+# Install rustup 1.66, then specify Rust version 1.71.0
+RUN curl https://sh.rustup.rs/?version=1.66 -sSf | bash -s -- -y --default-toolchain 1.71.0
 ENV PATH="${HOME}/.cargo/bin:${PATH}"
 RUN rustup target add wasm32-wasi
 RUN rustup target add wasm32-unknown-unknown
