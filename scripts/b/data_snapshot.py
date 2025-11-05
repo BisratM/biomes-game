@@ -196,8 +196,13 @@ def download_to_file(path: str):
     # Download the file. Use curl to get a progress bar.
     # Skip SSL verification
     # TODO: Download this snapshot elsewhere before this url dies
-    subprocess.run(["curl", "-o","-v","-L","-k", DATA_SNAPSHOT_DOWNLOAD_URL, "--output", path])
-
+    result = subprocess.run(
+        ["curl", "-L", "-k", "--output", path, DATA_SNAPSHOT_DOWNLOAD_URL],
+        check=True
+    )
+    # Verify the file was actually downloaded
+    if not os.path.exists(path):
+        raise RuntimeError(f"Download failed: file was not created at '{path}'")
     click.secho(f"Data snapshot downloaded to {path}.")
 
 
